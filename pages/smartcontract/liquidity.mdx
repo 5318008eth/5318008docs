@@ -1,0 +1,23 @@
+### Tranche and Liquidity Management
+
+#### `deployAndSendLiquidity()`
+Deploys the initial liquidity to Uniswap and sets up tranche supplies.
+
+- **Inputs**: None.
+- **Outputs**: None.
+- **Notes**: Can only be called once when the contract is unlaunched.
+
+#### `buyTranche(uint256 trancheIndex, uint256 maxPriceDifferencePercent)`
+Allows users to purchase tokens from a specific tranche.
+
+- **Inputs**:
+  - `trancheIndex`: Index of the tranche to buy from.
+  - `maxPriceDifferencePercent`: Maximum acceptable price difference.
+- **Outputs**: None.
+- **Notes**: Excess ETH is refunded.
+
+#### `getAvailableTranches()`
+Returns an array of booleans indicating which tranches are available for purchase.
+
+- **Inputs**: None.
+- **Outputs**: `bool[]` (availability of each tranche).

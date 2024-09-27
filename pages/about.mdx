@@ -1,0 +1,30 @@
+# About
+
+**Disclaimer:**
+
+- **THE SMART CONTRACT HAS NOT BEEN AUDITED AND IS STILL IN THE TESTING PHASE. USE AT YOUR OWN RISK.**
+- This token is purely meant for **entertainment purposes** and should not be considered a financial instrument. Nothing in this contract or its documentation should be construed as financial advice.
+- Any use of this contract in a financial context is done at your own risk, and the developers take no responsibility for any losses or damages incurred as a result of using this code.
+
+---
+
+## Accounting Guidelines
+
+Anytime there is division in the contract, there is a risk of numerical instability from rounding errors. To minimize this risk, the following guidelines are followed:
+
+1. The conversion rate adopted is the number of **BaseUnits (BU)** that equals **1 PublicUnit (PU)**. The inverse rate must not be used—`TOTAL_BASE_UNITS` is always the numerator and `_totalSupply` is always the denominator. 
+   - For example, if you want to convert BU to PU, instead of multiplying by the inverse rate, you should divide by the normal rate.
+
+2. **BaseUnit** balances converted into **PublicUnits** are always rounded down (truncated).
+
+---
+
+### Guarantees
+
+- If address **'A'** transfers **x PublicUnits** to address **'B'**, **A**'s resulting external balance will be decreased by precisely **x PublicUnits**, and **B**'s external balance will be precisely increased by **x PublicUnits**.
+  
+---
+
+### Caveat
+
+We do not guarantee that the sum of all balances will equal the result of calling `totalSupply()`. This is because, for any conversion function `f()` that has non-zero rounding error, `f(x0) + f(x1) + ... + f(xn)` is not always equal to `f(x0 + x1 + ... xn)`.

@@ -1,0 +1,10 @@
+## Rebase Mechanisms
+
+The contract contains a **rebase** mechanism to ensure the token supply maintains a peg to a predefined value. The peg value is dynamically adjusted based on token price fluctuations, targeting a specific peg.
+
+- **Peg Value**: Initially set to 0.5318008 USD but automatically adjusts to 5318008 * 10^x.
+- **Rebasing Process**:
+  - The contract adjusts the total supply by recalculating the conversion rate between **BaseUnits** and **PublicUnits**.
+  - The rebasing logic factors in the price difference between Chainlink and Uniswap feeds to ensure that the price feeds have not been manipulated and the price is within a specified range before adjusting the supply.
+  - After each rebase, the peg value may be adjusted by factors of 10, increasing or decreasing based on the total supply.
+- **Rewards**: Users who successfully initiate a rebase are compensated with additional tokens, calculated based on the gas costs to call the rebase function and a reward multiplier.

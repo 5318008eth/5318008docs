@@ -1,0 +1,15 @@
+### Rebase Mechanism
+
+#### `rebase(address paymentRecipient)`
+Recalculates token supply based on current market prices and peg value.
+
+- **Inputs**:
+  - `paymentRecipient`: Address that will receive the gas fee refund.
+- **Outputs**: None.
+- **Notes**: If the price difference is within an acceptable range, the function will adjust the total supply and reward the caller.
+
+#### `_rebase()`
+Internal function to adjust the token supply during a rebase.
+
+- **Inputs**: None.
+- **Outputs**: None.

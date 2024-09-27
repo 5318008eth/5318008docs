@@ -1,0 +1,10 @@
+## Progressive Liquidity Mechanisms
+
+The contract uses a progressive liquidity strategy tied to tranche sales.
+
+- **Tranche Sales**: Tokens are sold in predefined tranches at increasing prices. Each tranche contains a percentage of the total supply that can be unlocked once the token passes certain predefined prices. 
+  - Tranches are sold at the current price of the token.
+  - When tokens from a tranche are sold, half of the ETH raised is added to liquidity, while the other half is used for token distribution.
+- **Liquidity Deployment**:
+  - **Initial liquidity** is deployed when the contract is launched, with 25% of the token supply paired with ETH.
+  - Each time tokens are sold from a tranche, liquidity is automatically added to Uniswap by pairing the ETH with the corresponding amount of tokens.

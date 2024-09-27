@@ -1,0 +1,73 @@
+### Token Functions
+
+#### `name()`
+Returns the name of the token.
+
+- **Inputs**: None.
+- **Outputs**: `string` (token name).
+
+#### `symbol()`
+Returns the symbol of the token.
+
+- **Inputs**: None.
+- **Outputs**: `string` (token symbol).
+
+#### `decimals()`
+Returns the number of decimals used to display token amounts.
+
+- **Inputs**: None.
+- **Outputs**: `uint8` (number of decimals).
+
+#### `totalSupply()`
+Returns the current total supply of PublicUnits.
+
+- **Inputs**: None.
+- **Outputs**: `uint256` (total supply of tokens).
+
+#### `balanceOf(address who)`
+Returns the PublicUnit balance of a given address.
+
+- **Inputs**: 
+  - `who`: Address to query.
+- **Outputs**: `uint256` (PublicUnit balance of the address).
+
+#### `transfer(address to, uint256 value)`
+Transfers PublicUnits from the sender to another address.
+
+- **Inputs**: 
+  - `to`: Address to transfer tokens to.
+  - `value`: Number of tokens to transfer.
+- **Outputs**: `bool` (true if the transfer is successful).
+
+#### `transferFrom(address from, address to, uint256 value)`
+Transfers tokens on behalf of another account.
+
+- **Inputs**: 
+  - `from`: Address to send tokens from.
+  - `to`: Address to send tokens to.
+  - `value`: Number of tokens to transfer.
+- **Outputs**: `bool` (true if the transfer is successful).
+
+#### `approve(address spender, uint256 value)`
+Approves an address to spend a specific amount of tokens on behalf of the sender.
+
+- **Inputs**: 
+  - `spender`: Address that will spend the tokens.
+  - `value`: Number of tokens to be spent.
+- **Outputs**: `bool` (true if the approval is successful).
+
+#### `increaseAllowance(address spender, uint256 addedValue)`
+Increases the allowance granted to a spender.
+
+- **Inputs**: 
+  - `spender`: Address to increase allowance for.
+  - `addedValue`: Number of tokens to add to the allowance.
+- **Outputs**: `bool` (true if successful).
+
+#### `decreaseAllowance(address spender, uint256 subtractedValue)`
+Decreases the allowance granted to a spender.
+
+- **Inputs**: 
+  - `spender`: Address to decrease allowance for.
+  - `subtractedValue`: Number of tokens to subtract from the allowance.
+- **Outputs**: `bool` (true if successful).
