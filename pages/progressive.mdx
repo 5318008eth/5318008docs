@@ -1,10 +1,50 @@
-## Progressive Liquidity Mechanisms
+# Progressive Liquidity Mechanisms
 
-The contract uses a progressive liquidity strategy tied to tranche sales.
+## Overview
 
-- **Tranche Sales**: Tokens are sold in predefined tranches at increasing prices. Each tranche contains a percentage of the total supply that can be unlocked once the token passes certain predefined prices. 
-  - Tranches are sold at the current price of the token.
-  - When tokens from a tranche are sold, half of the ETH raised is added to liquidity, while the other half is used for token distribution.
-- **Liquidity Deployment**:
-  - **Initial liquidity** is deployed when the contract is launched, with 25% of the token supply paired with ETH.
-  - Each time tokens are sold from a tranche, liquidity is automatically added to Uniswap by pairing the ETH with the corresponding amount of tokens.
+Progressive liquidity mechanisms refer to a dynamic approach for adding liquidity to the token's liquidity pool (LP) on decentralized exchanges like Uniswap. This system helps gradually scale liquidity to ensure smooth trading and reduce the risk of sudden price volatility due to large liquidity injections.
+
+In this contract, the **progressive liquidity** mechanism works through incremental token and ETH additions to the liquidity pool based on OTC purchases directly from the contract. When a tranch is made available for purchase, half of the tokens are sold to users for ETH at the current market price and the other half is used to immediately add liquidity with the ETH raised. This creates a **progressive** flow of liquidity as the token supply grows over time.
+
+### Mechanism Breakdown
+
+1. **Token Sale via OTC Tranches:**
+   - A portion of the token's supply is distributed into tranches with predefined unlock prices.
+   - Users can buy tokens from these tranches with ETH at the current market price.
+   
+2. **Liquidity Addition:**
+   - For every purchase, an identical amount of tokens are added directly to the LP alongside the ETH raised, increasing the token's market liquidity.
+   
+3. **Price Stability:**
+   - The continuous addition of liquidity as tokens are purchased ensures that as the token supply increases, its liquidity and floor price grows proportionally, which reduces the likelihood of **price manipulation** and **slippage**.
+
+---
+
+## Pros of the Progressive Liquidity System
+
+1. **Gradual Liquidity Scaling:**
+   - Unlike most meme tokens that launch with their entire supply and a small amount of ETH, leading to early insiders owning a disproportionate share of the tokens and thin sell-side liquidity, **progressive liquidity** allows for a more **stable** and **fair** release of tokens.
+   - This system builds stronger **sell-side liquidity** (floor price) over time, preventing major price dumps caused by early token holders selling large portions of the supply and making the token more resilient as the project grows.
+
+2. **No Slippage on Tranche Purchases:**
+   - Purchasing directly from the contract tranches allows for **large purchases** without causing slippage, unlike decentralized exchanges (DEXs) where large buys often lead to slippage and price impact.
+   - This makes it more attractive for investors looking to purchase larger quantities of tokens without moving the market price significantly.
+
+3. **Increased Liquidity Over Time:**
+   - As more tokens are sold from tranches, more ETH is raised, and more liquidity is added to the LP. This naturally improves the trading environment by reducing slippage and widening the liquidity pool over time.
+
+6. **Fairer Token Distribution:**
+   - **Token supply isn’t dominated by early insiders.** The progressive release of tokens through tranches ensures that as the community grows and demand increases, new tokens become available. This reduces the risk of early investors or insiders holding a disproportionately large supply of the token, making the distribution fairer and more aligned with community growth.
+
+---
+
+## Cons of the Progressive Liquidity System
+
+1. **Higher Gas Costs:**
+   - Each purchase and liquidity addition involves multiple steps—such as token transfers, LP interactions, and ETH contributions—which can lead to **higher gas costs** for users. These added costs might discourage smaller buyers from participating.
+
+---
+
+## Conclusion
+
+The **progressive liquidity** mechanism strikes a balance between liquidity growth and price stability. While it offers a gradual, sustainable way to scale liquidity alongside token distribution, it also comes with challenges such as slower liquidity buildup and potential gas inefficiencies.
