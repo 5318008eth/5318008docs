@@ -1,0 +1,93 @@
+# Developer Functions
+
+### `setDev(address newDev)`
+Allows the current developer to transfer their role to a new developer.
+
+- **Inputs**:
+  - `newDev`: Address of the new developer.
+- **Outputs**: None.
+- **Notes**: Only callable by the current developer.
+
+---
+
+### `setGasPrice(uint256 _maxGasPrice)`
+Updates the maximum allowed gas price for transactions.
+
+- **Inputs**:
+  - `_maxGasPrice`: New gas price limit in gwei.
+- **Outputs**: None.
+- **Notes**: Helps prevent front-running or "sniper" attacks.
+
+---
+
+### `setMaxPriceDifference(uint256 _maxPriceDifference)`
+Sets the maximum price difference allowed between Uniswap and Chainlink prices for rebases.
+
+- **Inputs**:
+  - `_maxPriceDifference`: New maximum allowable price difference as a percentage.
+- **Outputs**: None.
+
+---
+
+### `setRewardMultiplier(uint256 newRewardMultiplier)`
+Updates the reward multiplier for rebase callers.
+
+- **Inputs**:
+  - `newRewardMultiplier`: New reward multiplier (in percentage).
+- **Outputs**: None.
+- **Notes**: Must be between 0 and 1000.
+
+---
+
+### `toggleSniperProtection()`
+Toggles sniper protection, a mechanism to prevent bots from exploiting transactions.
+
+- **Inputs**: None.
+- **Outputs**: None.
+
+---
+
+### `requestWithdrawETH(uint256 amount)`
+Requests to withdraw a specified amount of ETH from the contract. A 24-hour timelock is initiated before the withdrawal can be executed.
+Note: The purpose of this function is to rescue ETH from the contract in the circumstance that the tranche sale fails.
+
+- **Inputs**:
+  - `amount`: The amount of ETH to withdraw.
+- **Outputs**: None.
+- **Notes**: Only callable by the contract owner. Withdrawal can be executed after the timelock period.
+
+---
+
+
+### `executeWithdrawETH()`
+Executes the ETH withdrawal after the 24-hour timelock period has passed.
+Note: The purpose of this function is to rescue ETH from the contract in the circumstance that the tranche sale fails.
+
+- **Inputs**: None.
+- **Outputs**: None.
+- **Notes**: Only callable by the contract owner after the timelock has passed.
+
+---
+
+### `requestWithdrawTokens(uint256 amount)`
+Requests to withdraw a specified amount of tokens from the contract. A 24-hour timelock is initiated before the withdrawal can be executed.
+Note: The purpose of this function is to rescue tokens from the contract in the circumstance that the tranche sale fails.
+
+- **Inputs**:
+  - `amount`: The amount of tokens to withdraw.
+- **Outputs**: None.
+- **Notes**: Only callable by the contract owner. Withdrawal can be executed after the timelock period.
+
+---
+
+
+### `executeWithdrawTokens()`
+Executes the token withdrawal after the 24-hour timelock period has passed.
+Note: The purpose of this function is to rescue tokens from the contract in the circumstance that the tranche sale fails.
+
+- **Inputs**: None.
+- **Outputs**: None.
+- **Notes**: Only callable by the contract owner after the timelock has passed.
+
+---
+
