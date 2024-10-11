@@ -16,36 +16,27 @@ export default async function handler(
 ) {
     try {
         // Check if we have cached data
-        const cachedData = cache.get('supplyData');
+        const cachedData = cache.get('circulatingSupplyData');
         if (cachedData) {
-            return res.status(200).json(cachedData);
+            return res.status(200).json({ result: cachedData });
         }
 
         const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
-        console.log('Provider created successfully');
-
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
-        console.log('Contract instance created successfully');
 
         const totalSupply = await contract.totalSupply();
-        console.log('Total supply fetched:', totalSupply.toString());
-
         const contractBalance = await contract.balanceOf(CONTRACT_ADDRESS);
-        console.log('Contract balance fetched:', contractBalance.toString());
 
-        const circulatingSupply = totalSupply - contractBalance;
+        const circulatingSupply = totalSupply.sub(contractBalance);
 
-        const supplyData = {
-            total_supply: totalSupply.toString(),
-            circulating_supply: circulatingSupply.toString()
-        };
+        const result = circulatingSupply.toString();
 
         // Cache the data
-        cache.set('supplyData', supplyData);
+        cache.set('circulatingSupplyData', result);
 
-        res.status(200).json(supplyData);
+        res.status(200).json({ result });
     } catch (error) {
-        console.error('Error fetching supply:', error);
-        res.status(500).json({ error: 'Error fetching supply data', details: error.message, stack: error.stack });
+        console.error('Error fetching circulating supply:', error);
+        res.status(500).json({ error: 'Error fetching circulating supply data', details: error.message });
     }
 }
