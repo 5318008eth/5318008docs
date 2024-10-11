@@ -27,7 +27,7 @@ export default async function handler(
         const totalSupply = await contract.totalSupply();
         const contractBalance = await contract.balanceOf(CONTRACT_ADDRESS);
 
-        const circulatingSupply = totalSupply.sub(contractBalance);
+        const circulatingSupply = totalSupply - contractBalance;
 
         const result = circulatingSupply.toString();
 
