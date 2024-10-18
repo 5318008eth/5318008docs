@@ -18,7 +18,6 @@
   },
   "homepage": "https://docs.5318008.io/",
   "dependencies": {
-    "bignumber.js": "^9.1.2",
     "ethers": "^6.13.3",
     "next": "^14.2.3",
     "nextra": "^2.13.4",
