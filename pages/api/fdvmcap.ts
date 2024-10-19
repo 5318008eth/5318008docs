@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NodeCache from 'node-cache';
+import { cors } from './cors';
 
 const CONTRACT_ADDRESS = '0xbB493890c5a30a047576f9114081Cb65038c651c';
 const ABI = [
@@ -15,6 +16,8 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
+    if (cors(req, res)) return;
+
     try {
         // Check if we have cached data
         const cachedData = cache.get('fdvMarketCapData');
