@@ -1,11 +1,19 @@
 import { ethers } from 'ethers';
 import * as jose from 'jose';
+import * as crypto from 'crypto';
 
 export async function createInfuraProvider() {
   try {
-    // Import the private key for signing
+    // Convert RSA key to PKCS8 format using Node's crypto
+    const keyObject = crypto.createPrivateKey(process.env.JWT_PRIVATE_KEY);
+    const pkcs8Key = keyObject.export({
+      type: 'pkcs8',
+      format: 'pem'
+    });
+
+    // Import the converted key
     const privateKey = await jose.importPKCS8(
-      process.env.JWT_PRIVATE_KEY,
+      pkcs8Key.toString(),
       'RS256'
     );
 
@@ -17,7 +25,7 @@ export async function createInfuraProvider() {
       .setProtectedHeader({ 
         alg: 'RS256',
         typ: 'JWT',
-        kid: process.env.JWT_KEY_NAME  // Using key name as the Key ID
+        kid: process.env.JWT_KEY_NAME
       })
       .sign(privateKey);
 
