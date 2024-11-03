@@ -3,28 +3,22 @@ import * as jose from 'jose';
 
 export async function createInfuraProvider() {
   try {
-    // Clean and format the private key
-    const cleanPrivateKey = process.env.JWT_PRIVATE_KEY
-      .replace(/-----(BEGIN|END) EC PRIVATE KEY-----/g, '')
-      .replace(/\n/g, '')
-      .trim();
-
-    // Convert EC key to PKCS8 format
-    const pkcs8Header = '-----BEGIN PRIVATE KEY-----\n';
-    const pkcs8Footer = '\n-----END PRIVATE KEY-----';
-    
-    // Create the PKCS8 formatted key
-    const pkcs8Key = `${pkcs8Header}${cleanPrivateKey}${pkcs8Footer}`;
-
     // Import the private key for signing
-    const privateKey = await jose.importPKCS8(pkcs8Key, 'ES256');
+    const privateKey = await jose.importPKCS8(
+      process.env.JWT_PRIVATE_KEY,
+      'RS256'  // Changed to RS256 for RSA
+    );
 
-    // Create JWT token
+    // Create JWT token with required fields
     const token = await new jose.SignJWT({ 
       api_key: process.env.INFURA_API_KEY,
-      name: process.env.JWT_KEY_NAME
+      name: process.env.JWT_KEY_NAME,
+      aud: 'infura.io'  // Required audience claim
     })
-      .setProtectedHeader({ alg: 'ES256' })
+      .setProtectedHeader({ 
+        alg: 'RS256',  // Changed to RS256
+        typ: 'JWT'
+      })
       .setIssuedAt()
       .setExpirationTime('1h')
       .sign(privateKey);
