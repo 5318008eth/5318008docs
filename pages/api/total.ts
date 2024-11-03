@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NodeCache from 'node-cache';
 import { cors } from './cors';
+import { createInfuraProvider } from '../../utils/infura';
 
 const CONTRACT_ADDRESS = '0xbB493890c5a30a047576f9114081Cb65038c651c';
 const ABI = [
@@ -23,7 +24,8 @@ export default async function handler(
             return res.status(200).json({ result: cachedData });
         }
 
-        const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
+        // Use the new provider with JWT auth
+        const provider = await createInfuraProvider();
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 
         const totalSupply = await contract.totalSupply();

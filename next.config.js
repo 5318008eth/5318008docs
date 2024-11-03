@@ -7,6 +7,9 @@ module.exports = {
   ...withNextra(),
   env: {
     INFURA_URL: process.env.INFURA_URL,
+    INFURA_API_KEY: process.env.INFURA_API_KEY,
+    JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY,
+    JWT_KEY_NAME: process.env.JWT_KEY_NAME,
   },
   async headers() {
     return [

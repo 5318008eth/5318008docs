@@ -19,6 +19,7 @@
   "homepage": "https://docs.5318008.io/",
   "dependencies": {
     "ethers": "^6.13.3",
+    "jose": "^5.9.6",
     "next": "^14.2.3",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",

@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import NodeCache from 'node-cache';
 import { cors } from './cors';
+import { createInfuraProvider } from '../../utils/infura';
 
 const CONTRACT_ADDRESS = '0xbB493890c5a30a047576f9114081Cb65038c651c';
 const ABI = [
@@ -19,13 +20,12 @@ export default async function handler(
     if (cors(req, res)) return;
 
     try {
-        // Check if we have cached data
         const cachedData = cache.get('fdvMarketCapData');
         if (cachedData) {
             return res.status(200).json({ result: cachedData });
         }
 
-        const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
+        const provider = await createInfuraProvider();
         const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 
         const totalSupply = BigInt(await contract.totalSupply());
@@ -36,7 +36,6 @@ export default async function handler(
 
         const result = fdvMcap.toString();
 
-        // Cache the data
         cache.set('fdvMarketCapData', result);
 
         res.status(200).json({ result });
