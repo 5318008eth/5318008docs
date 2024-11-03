@@ -3,13 +3,21 @@ import * as jose from 'jose';
 
 export async function createInfuraProvider() {
   try {
+    // Clean and format the private key
+    const cleanPrivateKey = process.env.JWT_PRIVATE_KEY
+      .replace(/-----(BEGIN|END) EC PRIVATE KEY-----/g, '')
+      .replace(/\n/g, '')
+      .trim();
+
+    // Convert EC key to PKCS8 format
+    const pkcs8Header = '-----BEGIN PRIVATE KEY-----\n';
+    const pkcs8Footer = '\n-----END PRIVATE KEY-----';
+    
+    // Create the PKCS8 formatted key
+    const pkcs8Key = `${pkcs8Header}${cleanPrivateKey}${pkcs8Footer}`;
+
     // Import the private key for signing
-    const privateKey = await jose.importPKCS8(
-      process.env.JWT_PRIVATE_KEY
-        .replace('-----BEGIN EC PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----')
-        .replace('-----END EC PRIVATE KEY-----', '-----END PRIVATE KEY-----'),
-      'ES256'
-    );
+    const privateKey = await jose.importPKCS8(pkcs8Key, 'ES256');
 
     // Create JWT token
     const token = await new jose.SignJWT({ 
