@@ -3,9 +3,9 @@ import * as jose from 'jose';
 
 export async function createInfuraProvider() {
   try {
-    // Import the EC private key
-    const privateKey = await jose.importPKCS8(
-      process.env.JWT_PRIVATE_KEY,
+    // Import the public key directly with its headers
+    const privateKey = await jose.importSPKI(
+      process.env.JWT_PUBLIC_KEY,  // Use the public key with headers intact
       'ES256'
     );
 
@@ -14,7 +14,7 @@ export async function createInfuraProvider() {
       api_key: process.env.INFURA_API_KEY,
       name: process.env.JWT_KEY_NAME
     })
-      .setProtectedHeader({ alg: 'ES256' }) // Using ES256 for EC keys
+      .setProtectedHeader({ alg: 'ES256' })
       .setIssuedAt()
       .setExpirationTime('1h')
       .sign(privateKey);
