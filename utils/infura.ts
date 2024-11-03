@@ -11,12 +11,6 @@ export async function createInfuraProvider() {
       format: 'pem'
     });
 
-    // Import the converted key
-    const privateKey = await jose.importPKCS8(
-      pkcs8Key.toString(),
-      'RS256'
-    );
-
     // Create JWT token with required fields
     const token = await new jose.SignJWT({ 
       exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
@@ -25,9 +19,9 @@ export async function createInfuraProvider() {
       .setProtectedHeader({ 
         alg: 'RS256',
         typ: 'JWT',
-        kid: process.env.JWT_KEY_NAME
+        kid: process.env.JWT_KEY_NAME  // Using the ID from environment variable
       })
-      .sign(privateKey);
+      .sign(await jose.importPKCS8(pkcs8Key.toString(), 'RS256'));
 
     // Create provider with JWT auth header
     const fetchRequest = new ethers.FetchRequest(process.env.INFURA_URL);
