@@ -8,6 +8,9 @@ dependencies:
   ethers:
     specifier: ^6.13.3
     version: 6.13.3
+  jose:
+    specifier: ^5.9.6
+    version: 5.9.6
   next:
     specifier: ^14.2.3
     version: 14.2.13(react-dom@18.3.1)(react@18.3.1)
@@ -1398,6 +1401,10 @@ packages:
 
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+    dev: false
+
+  /jose@5.9.6:
+    resolution: {integrity: sha512-AMlnetc9+CV9asI19zHmrgS/WYsWUwCn2R7RzlbJWD7F9eWYUTGyBmU9o6PxngtLGOiDGPRu+Uc4fhKzbpteZQ==}
     dev: false
 
   /js-tokens@4.0.0:
