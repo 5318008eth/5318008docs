@@ -3,9 +3,11 @@ import * as jose from 'jose';
 
 export async function createInfuraProvider() {
   try {
-    // Import the public key directly with its headers
-    const privateKey = await jose.importSPKI(
-      process.env.JWT_PUBLIC_KEY,  // Use the public key with headers intact
+    // Import the private key for signing
+    const privateKey = await jose.importPKCS8(
+      process.env.JWT_PRIVATE_KEY
+        .replace('-----BEGIN EC PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----')
+        .replace('-----END EC PRIVATE KEY-----', '-----END PRIVATE KEY-----'),
       'ES256'
     );
 
