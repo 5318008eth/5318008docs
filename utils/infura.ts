@@ -2,23 +2,34 @@ import { ethers } from 'ethers';
 import * as jose from 'jose';
 import * as fs from 'fs';
 
+function getAlgorithm(privateKey: string): 'RS256' | 'ES256' {
+  if (privateKey.includes('BEGIN RSA PRIVATE KEY') || privateKey.includes('BEGIN PRIVATE KEY')) {
+    return 'RS256';
+  } else if (privateKey.includes('BEGIN EC PRIVATE KEY')) {
+    return 'ES256';
+  }
+  throw new Error('Unsupported key type');
+}
+
 export async function createInfuraProvider() {
   try {
+    const privateKey = process.env.JWT_PRIVATE_KEY;
+    const algorithm = getAlgorithm(privateKey);
+
     // Create JWT token with required fields
-    const token = await new jose.SignJWT({
-      aud: 'infura.io',  // Required audience claim
-      exp: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
-    })
+    const token = await new jose.SignJWT({})  // Empty payload as per example
       .setProtectedHeader({ 
-        alg: 'RS256',
+        alg: algorithm,
         typ: 'JWT',
         kid: process.env.JWT_KEY_NAME
       })
+      .setAudience('infura.io')
+      .setExpirationTime('1h')
       .sign(await jose.importPKCS8(
-        process.env.JWT_PRIVATE_KEY
-          .replace(/\\n/g, '\n')  // Convert string newlines to actual newlines
-          .replace(/"/g, ''),     // Remove quotes
-        'RS256'
+        privateKey
+          .replace(/\\n/g, '\n')
+          .replace(/"/g, ''),
+        algorithm
       ));
 
     // Create provider with JWT auth header
