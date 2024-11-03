@@ -1,15 +1,12 @@
 import { ethers } from 'ethers';
 import * as jose from 'jose';
-import * as crypto from 'crypto';
 
 export async function createInfuraProvider() {
   try {
-    // Convert RSA key to PKCS8 format using Node's crypto
-    const keyObject = crypto.createPrivateKey(process.env.JWT_PRIVATE_KEY);
-    const pkcs8Key = keyObject.export({
-      type: 'pkcs8',
-      format: 'pem'
-    });
+    // Clean and format the private key by replacing \n with actual newlines
+    const cleanPrivateKey = process.env.JWT_PRIVATE_KEY
+      .replace(/\\n/g, '\n')
+      .replace(/"/g, ''); // Remove any quotes if present
 
     // Create JWT token with required fields
     const token = await new jose.SignJWT({ 
@@ -19,9 +16,9 @@ export async function createInfuraProvider() {
       .setProtectedHeader({ 
         alg: 'RS256',
         typ: 'JWT',
-        kid: process.env.JWT_KEY_NAME  // Using the ID from environment variable
+        kid: process.env.JWT_KEY_NAME
       })
-      .sign(await jose.importPKCS8(pkcs8Key.toString(), 'RS256'));
+      .sign(await jose.importPKCS8(cleanPrivateKey, 'RS256'));
 
     // Create provider with JWT auth header
     const fetchRequest = new ethers.FetchRequest(process.env.INFURA_URL);
